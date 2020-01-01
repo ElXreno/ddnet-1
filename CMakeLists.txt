@@ -599,15 +599,8 @@ endif()
 set_src(DEP_JSON_SRC GLOB src/engine/external/json-parser json.c json.h)
 add_library(json EXCLUDE_FROM_ALL OBJECT ${DEP_JSON_SRC})
 
-set_src(DEP_MD5_SRC GLOB src/engine/external/md5 md5.c md5.h)
-add_library(md5 EXCLUDE_FROM_ALL OBJECT ${DEP_MD5_SRC})
-
-list(APPEND TARGETS_DEP json md5)
+list(APPEND TARGETS_DEP json)
 set(DEP_JSON $<TARGET_OBJECTS:json>)
-set(DEP_MD5)
-if(NOT CRYPTO_FOUND)
-  set(DEP_MD5 $<TARGET_OBJECTS:md5>)
-endif()
 
 ########################################################################
 # DATA
@@ -1604,7 +1597,7 @@ set(GAME_GENERATED_SHARED
   src/game/generated/protocolglue.h
 )
 
-set(DEPS ${DEP_JSON} ${DEP_MD5} ${ZLIB_DEP})
+set(DEPS ${DEP_JSON} ${ZLIB_DEP})
 
 # Libraries
 set(LIBS
