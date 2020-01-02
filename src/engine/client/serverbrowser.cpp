@@ -20,7 +20,7 @@
 
 #include <mastersrv/mastersrv.h>
 
-#include <engine/external/json-parser/json.h>
+#include <json-parser/json.h>
 
 #include "serverbrowser.h"
 class SortWrap

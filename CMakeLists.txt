@@ -302,6 +302,7 @@ if(DOWNLOAD_GTEST)
 endif()
 find_package(GLEW)
 find_package(GTest)
+pkg_check_modules(JSONPARSER REQUIRED json-parser)
 if(MYSQL)
   find_package(MySQL)
 else()
@@ -364,6 +365,7 @@ if(DOWNLOAD_GTEST)
 endif()
 show_dependency_status("Glew" GLEW)
 show_dependency_status("GTest" GTEST)
+show_dependency_status("json-parser" JSONPARSER)
 if(TARGET_OS AND TARGET_OS STREQUAL "mac")
   show_dependency_status("Hdiutil" HDIUTIL)
 endif()
@@ -507,17 +509,6 @@ if(NOT(GTEST_FOUND) AND DOWNLOAD_GTEST)
     endif()
   endif()
 endif()
-
-########################################################################
-# DEPENDENCY COMPILATION
-########################################################################
-
-# Static dependencies
-set_glob(DEP_JSON_SRC GLOB src/engine/external/json-parser json.c json.h)
-add_library(json EXCLUDE_FROM_ALL OBJECT ${DEP_JSON_SRC})
-
-list(APPEND TARGETS_DEP json)
-set(DEP_JSON $<TARGET_OBJECTS:json>)
 
 ########################################################################
 # COPY DATA AND DLLS
@@ -746,11 +737,12 @@ set(GAME_GENERATED_SHARED
   src/game/generated/protocol.h
 )
 
-set(DEPS ${DEP_JSON} ${ZLIB_DEP})
+set(DEPS ${ZLIB_DEP})
 
 # Libraries
 set(LIBS
   ${CRYPTO_LIBRARIES}
+  ${JSONPARSER_LIBRARIES}
   ${WEBSOCKETS_LIBRARIES}
   ${ZLIB_LIBRARIES}
   ${PLATFORM_LIBS}

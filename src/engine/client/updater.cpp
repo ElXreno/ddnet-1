@@ -3,7 +3,7 @@
 #include <engine/engine.h>
 #include <engine/storage.h>
 #include <engine/client.h>
-#include <engine/external/json-parser/json.h>
+#include <json-parser/json.h>
 #include <engine/shared/json.h>
 #include <game/version.h>
 
