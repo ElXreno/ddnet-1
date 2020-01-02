@@ -4,11 +4,11 @@
 #define ENGINE_CLIENT_SERVERBROWSER_H
 
 #include <engine/config.h>
-#include <engine/external/json-parser/json.h>
 #include <engine/masterserver.h>
 #include <engine/serverbrowser.h>
 #include <engine/shared/config.h>
 #include <engine/shared/memheap.h>
+#include <json-parser/json.h>
 
 class CServerBrowser : public IServerBrowser
 {

@@ -383,6 +383,8 @@ else()
   set(WEBSOCKETS_INCLUDE_DIRS)
 endif()
 
+pkg_check_modules(JSONPARSER REQUIRED json-parser)
+
 
 if(TARGET_OS AND TARGET_OS STREQUAL "mac")
   find_program(CMAKE_OTOOL otool)
@@ -460,6 +462,8 @@ show_dependency_status("Zlib" ZLIB)
 if(WEBSOCKETS)
   show_dependency_status("Websockets" WEBSOCKETS)
 endif()
+
+show_dependency_status("json-parser" JSONPARSER)
 
 if(CLIENT AND NOT(CURL_FOUND))
   message(SEND_ERROR "You must install Curl to compile DDNet")
@@ -591,16 +595,6 @@ if(NOT(GTEST_FOUND) AND DOWNLOAD_GTEST)
     endif()
   endif()
 endif()
-
-########################################################################
-# DEPENDENCY COMPILATION
-########################################################################
-
-set_src(DEP_JSON_SRC GLOB src/engine/external/json-parser json.c json.h)
-add_library(json EXCLUDE_FROM_ALL OBJECT ${DEP_JSON_SRC})
-
-list(APPEND TARGETS_DEP json)
-set(DEP_JSON $<TARGET_OBJECTS:json>)
 
 ########################################################################
 # DATA
@@ -1597,11 +1591,12 @@ set(GAME_GENERATED_SHARED
   src/game/generated/protocolglue.h
 )
 
-set(DEPS ${DEP_JSON} ${ZLIB_DEP})
+set(DEPS ${ZLIB_DEP})
 
 # Libraries
 set(LIBS
   ${CRYPTO_LIBRARIES}
+  ${JSONPARSER_LIBRARIES}
   ${WEBSOCKETS_LIBRARIES}
   ${ZLIB_LIBRARIES}
   ${PLATFORM_LIBS}
